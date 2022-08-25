@@ -1,0 +1,7 @@
+<factorypath>
+    <factorypathentry kind="PLUGIN" id="org.eclipse.jst.ws.annotations.core" enabled="false" runInBatchMode="false"/>
+    <factorypathentry kind="EXTJAR" id="C:\CustomerFusion\eclipseProjects\annotationjars\java-driver-mapper-processor-4.6.1.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="EXTJAR" id="C:\CustomerFusion\eclipseProjects\annotationjars\lombok-1.18.16.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="EXTJAR" id="C:\CustomerFusion\eclipseProjects\annotationjars\lombok-mapstruct-binding-0.2.0.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="EXTJAR" id="C:\CustomerFusion\eclipseProjects\annotationjars\mapstruct-processor-1.4.2.Final.jar" enabled="true" runInBatchMode="false"/>
+</factorypath>

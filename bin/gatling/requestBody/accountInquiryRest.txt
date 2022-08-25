@@ -1,0 +1,9 @@
+<accountInquiryRequest minorVersion="1" majorVersion="1" xmlns="http://xmlns.fedex.com/customer">
+         <accountNumber>${accountNumber}</accountNumber>
+         <resultOptions>
+            <contacts>
+               <opco>FX</opco>
+               <contactTypeCode>PA</contactTypeCode>
+            </contacts>
+         </resultOptions>
+      </accountInquiryRequest>

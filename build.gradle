@@ -1,0 +1,95 @@
+plugins {
+    id 'java'
+    id 'scala'
+    id 'eclipse'
+    // The following line allows to load io.gatling.gradle plugin and directly apply it
+    id 'io.gatling.gradle' version '3.8.3.2'
+}
+
+configurations {
+    externalLib
+}
+
+gatling {
+
+  // WARNING: options below only work when logback config file isn't provided
+  logLevel = 'ALL' // logback root level
+  logHttp = 'ALL' // set to 'ALL' for all HTTP traffic in TRACE, 'FAILURES' for failed HTTP traffic in DEBUG
+  
+  systemProperties = ['file.encoding': 'UTF-8', 'java.net.preferIPv6Addresses': true ]
+  jvmArgs =	['-server','-Xmx1G',
+					 '-XX:+HeapDumpOnOutOfMemoryError',
+					 '-XX:+UseG1GC',
+					 '-XX:+ParallelRefProcEnabled',
+					 '-XX:MaxInlineLevel=20',
+					 '-XX:MaxTrivialSize=12',
+					 '-XX:-UseBiasedLocking'
+			]						
+  
+}
+
+dependencies {
+
+	annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.16'
+	annotationProcessor group: 'com.datastax.oss', name: 'java-driver-mapper-processor', version: '4.6.1'
+	annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: '1.4.2.Final'
+	annotationProcessor group: 'org.projectlombok', name: 'lombok-mapstruct-binding', version: '0.2.0'
+
+	//implementation 'org.apache.commons:commons-exec:1.3'
+	//implementation 'io.gatling:gatling-maven-plugin:3.1.0'
+	
+	implementation 'org.scala-lang:scala-library:2.12.6'
+    implementation 'com.datastax.oss:java-driver-core:4.6.1'
+    implementation 'com.datastax.oss:java-driver-mapper-processor:4.6.1'
+    implementation 'com.datastax.oss:java-driver-mapper-runtime:4.6.1'   
+    implementation 'com.datastax.oss:java-driver-query-builder:4.6.1' 
+    implementation 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+    implementation 'org.mapstruct:mapstruct:1.4.2.Final'       
+    implementation 'org.projectlombok:lombok:1.18.16'
+    implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0' 
+    implementation 'uk.co.jemos.podam:podam:7.2.7.RELEASE'
+    
+    gatling 'com.datastax.oss:java-driver-core:4.6.1'
+    gatling 'com.datastax.oss:java-driver-mapper-processor:4.6.1'
+    gatling 'com.datastax.oss:java-driver-mapper-runtime:4.6.1'   
+    gatling 'com.datastax.oss:java-driver-query-builder:4.6.1' 
+    gatling 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+    gatling 'org.mapstruct:mapstruct:1.4.2.Final'       
+    gatling 'org.projectlombok:lombok:1.18.16'
+    gatling 'org.projectlombok:lombok-mapstruct-binding:0.2.0'    
+    gatling 'uk.co.jemos.podam:podam:7.2.7.RELEASE' 
+    gatling 'org.scala-lang:scala-library:2.12.6'
+    gatling files('externalLib/gatling-dse-stress-assembly-1.3.6.jar') 
+       
+	 // LOCALLY EXPORTED LIBS
+	 implementation files('externalLib/gatling-dse-stress-assembly-1.3.6.jar')
+	 
+}
+
+repositories {
+  mavenCentral()
+}
+
+/*
+configurations {
+    fatJarDependencies.extendsFrom gatling
+}
+
+task fatJar(type: Jar, dependsOn: [':gatlingClasses', ':processResources']) {
+    manifest {
+        attributes 'Implementation-Title': 'Preparing test',
+                'Implementation-Version': '',
+                'Main-Class': 'io.gatling.app.Gatling'
+    }
+    classifier = 'all'
+    from files(sourceSets.main.output.classesDirs)
+    from files(sourceSets.gatling.output)
+    from { configurations.fatJarDependencies.collect { it.isDirectory() ? it : zipTree(it) } } {
+        exclude 'META-INF/MANIFEST.MF'
+        exclude 'META-INF/*.SF'
+        exclude 'META-INF/*.DSA'
+        exclude 'META-INF/*.RSA'
+    }
+    with jar
+}
+*/
