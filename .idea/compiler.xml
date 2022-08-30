@@ -66,9 +66,9 @@
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-lang/commons-lang/2.6/ce1edb914c94ebc388f086c6827e8bdeec71ac2/commons-lang-2.6.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jcabi/jcabi-log/0.14/819a57348f2448f01d74f8a317dab61d6a90cac2/jcabi-log-0.14.jar" />
         </processorPath>
-        <module name="datastaxGatling.main" />
+        <module name="cam_datastax_gatling.main" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="15" />
+    <bytecodeTargetLevel target="1.8" />
   </component>
 </project>
