@@ -15,12 +15,11 @@ configurations {
     externalLib
 }
 
-//plugin config
-//reference: https://github.com/ysb33r/gradle-gatling-plugin
+//gatling gradle plugin config reference: https://github.com/ysb33r/gradle-gatling-plugin
 gatling {
 
     logLevel = 'WARN' // logback root level
-    //systemProperties = ['file.encoding': 'UTF-8', 'java.net.preferIPv6Addresses': true ]
+    //systemProperties = ['file.encoding': 'UTF-8', 'java.net.preferIPv6Addresses': true ] // not supported in v0.7.4
     jvmArgs = ['-server', '-Xmx1G',
                '-XX:+HeapDumpOnOutOfMemoryError',
                '-XX:+UseG1GC',
@@ -88,7 +87,6 @@ task fatJar(type: Jar) {
     archiveClassifier = 'all'   //string gets appended to the jar name
     from files(sourceSets.main.output.classesDirs)
     from files(sourceSets.gatling.output)
-
     from { configurations.fatJarDependencies.collect { it.isDirectory() ? it : zipTree(it) } } {
         exclude 'META-INF/*.SF'
         exclude 'META-INF/*.DSA'
