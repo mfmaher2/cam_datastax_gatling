@@ -1,5 +1,7 @@
 Gatling Simulations using Gatling plugin for Gradle  
 =============================================
+Simulations use gatling gradle plugin "com.github.lkishalmi.gatling" v0.7.4. 
+Any higher versions won't work since dse gatling plugin only supports gatling.core 2.3
 
 # Using the Examples
 
