@@ -30,7 +30,7 @@ Gatling: 2.3
 `Java -cp  cam_datastax_gatling-all.jar  com.datastax.gatling.stress.Starter runsims.examples.cql.accounts.ReadWriteAccountSimulation`
 
 #create an executable and run simulations
-`./create_exec.sh`    Creates an executable for the jar in build/libs
+`./create_sim_exec.sh`    Creates an executable for the jar in build/libs
 use the executable to list and run simulations
 `./cam_datastax_gatling-all listSims`  List Simulations
 `./cam_datastax_gatling-all run sims.examples.cql.accounts.ReadWriteAccountSimulation`  Run a simulation
