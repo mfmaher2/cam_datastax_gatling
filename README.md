@@ -6,6 +6,8 @@ Any higher versions won't work since dse gatling plugin only supports gatling.co
 Java: 1.8
 Scala: 2.12.8
 Gatling: 2.3
+Gradle: 6.6.1   Gradle build might fail if using newer versions
+
 
 # Using the Examples
 
