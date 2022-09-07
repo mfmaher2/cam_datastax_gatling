@@ -58,7 +58,7 @@ class AccountFeed(dataGen: DataGenerator) extends BaseFeed with LazyLogging{
   }
 
   def writeAccountFileSource = {
-    csv("src/main/resources/feeddata/accoutData.csv")
+    csv("src/gatling/resources/accoutData.csv")
       .convert{
         case("account_number", v) => {
           writtenAccountNumbers = writtenAccountNumbers.push(v)._2
