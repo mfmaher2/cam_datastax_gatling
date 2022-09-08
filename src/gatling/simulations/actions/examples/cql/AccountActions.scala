@@ -5,7 +5,7 @@ import com.datastax.gatling.plugin.CqlPredef._
 import com.datastax.gatling.stress.core.BaseAction
 import com.datastax.gatling.stress.libs.{Cassandra, SimConfig}
 import com.datastax.oss.driver.api.core.ConsistencyLevel
-import com.datastax.oss.driver.api.core.cql.BoundStatement
+import com.datastax.oss.driver.api.core.cql.{BatchType, BoundStatement}
 import com.datastax.oss.driver.api.querybuilder.QueryBuilder._
 import io.gatling.core.Predef._
 
@@ -22,9 +22,7 @@ class AccountActions(dataGen: DataGenerator, cassandra: Cassandra, simConf: SimC
   def writeAcountOpco(opco: String)= {
     group(Groups.INSERT) {
       exec(session => {
-       // val acctNum = session.get("account_number").as[String]
-       //  val acctNum = session.getString("account_number")
-       val acctNum = "123123123"
+        val acctNum = session.get("account_number").as[String]
         session.set("acctStmt", generator.getGeneratedAccount(acctNum, opco).getBoundStatement)
       })
       .exec(cql("Account")
@@ -33,13 +31,22 @@ class AccountActions(dataGen: DataGenerator, cassandra: Cassandra, simConf: SimC
     }
   }
 
+  def writeAcountOpcoBatch(opco: String)= {
+    group(Groups.INSERT) {
+      exec(session => {
+        val acctNum = session.get("account_number").as[String]
+        session.set("acctStmtBatchabe", Seq(generator.getGeneratedAccount(acctNum, opco).getBoundStatement))
+      })
+        .exec(cql("Account")
+          .executeBatchableStatementParam("acctStmtBatchabe", BatchType.LOGGED)
+        )
+    }
+  }
+
   def writeAcountOpcoWithCustomConsistencyLevel(opco: String, customCL: ConsistencyLevel)= {
     group(Groups.INSERT) {
       exec(session => {
-       // val acctNum = session.get("account_number").as[String]
-       // val acctNum = session.getString("account_number")
-        
-         val acctNum = "123123123"
+        val acctNum = session.get("account_number").as[String]
         session.set("acctStmt",
                     generator.getGeneratedAccount(acctNum, opco)
                       .getBoundStatement
@@ -67,11 +74,9 @@ class AccountActions(dataGen: DataGenerator, cassandra: Cassandra, simConf: SimC
           "${account_number}",
           "${opco}"
         )
-        /*
         .check(resultSet.transform(_.hasMorePages) is false)
         .check(resultSet.transform(_.remaining) is 1)
         .check(resultSet.transform(rs => generator.getCustomerAccountEntity(rs.one()) != null) is true)
-        */
       )
     }
   }
@@ -97,11 +102,9 @@ class AccountActions(dataGen: DataGenerator, cassandra: Cassandra, simConf: SimC
             "${account_number}",
             "${opco}"
           )
-        /*  
         .check(resultSet.transform(_.hasMorePages) is false)
         .check(resultSet.transform(_.remaining) is 1)
         .check(resultSet.transform(rs => generator.getCustomerAccountEntity(rs.one()) != null) is true)
-        */
       )
     }
   }
