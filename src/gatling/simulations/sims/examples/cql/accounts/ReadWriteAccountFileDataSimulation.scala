@@ -17,14 +17,20 @@ class ReadWriteAccountFileDataSimulation  extends BaseSimulation {
   val scenarioName = "writeAccount"
   val simConf = new SimConfig(conf, simName, scenarioName)
 
+  //gather values from simulation config file
   protected lazy val keyspace: String = simConf.getSimulationConfStr("keyspace")
   protected lazy val table: String = simConf.getSimulationConfStr("table")
+  protected lazy val dataFile = simConf.getSimulationConfStr("accountDataFile")
+  protected lazy val userCnt = simConf.getSimulationConfInt("usersConstantCnt")
+  protected lazy val rampTime = Duration(simConf.getSimulationConfStr("usersRampTime")).asInstanceOf[FiniteDuration]
+  protected lazy val constantTime =  Duration(simConf.getSimulationConfStr("usersConstantTime")).asInstanceOf[FiniteDuration]
+
   protected lazy val dataGenerator = new DataGenerator(cass.getSession, keyspace)
 
   val accountActions = new AccountActions(dataGenerator, cass, simConf)
 
   val acctFeed = new AccountFeed(dataGenerator)
-  val writeFeed = acctFeed.writeAccountFileSource
+  val writeFeed = acctFeed.writeAccountFileSource(dataFile)
   val readFeed = acctFeed.readAccoutnNum
 
   val writeAccountScenario = scenario("AccountWrite")
@@ -35,11 +41,6 @@ class ReadWriteAccountFileDataSimulation  extends BaseSimulation {
   val readAccountScenario = scenario("AccountRead")
     .feed(readFeed)
     .exec(accountActions.ReadAccountOpco("FX"))
-
-  //gather values from simulation config file
-  val userCnt = simConf.getSimulationConfInt("usersConstantCnt")
-  val rampTime = Duration(simConf.getSimulationConfStr("usersRampTime")).asInstanceOf[FiniteDuration]
-  val constantTime =  Duration(simConf.getSimulationConfStr("usersConstantTime")).asInstanceOf[FiniteDuration]
 
   setUp(
     //run test with a 2 to 1 write to read ratio
