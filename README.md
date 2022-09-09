@@ -19,7 +19,7 @@ Gradle: 6.6.1   Gradle build might fail if using newer versions
 
 
 ## Running Simulations
-#gradle run
+#gradle run after build
 `gradle gatlingRun-sims.examples.cql.accounts.ReadWriteAccountSimulation`
 
 #using fat/uber jar
@@ -29,7 +29,7 @@ Gradle: 6.6.1   Gradle build might fail if using newer versions
 
 #explicitly use starter app to run gatling sims
 `Java -cp  cam_datastax_gatling-all.jar  com.datastax.gatling.stress.Starter listSims`
-`Java -cp  cam_datastax_gatling-all.jar  com.datastax.gatling.stress.Starter runsims.examples.cql.accounts.ReadWriteAccountSimulation`
+`Java -cp  cam_datastax_gatling-all.jar  com.datastax.gatling.stress.Starter run sims.examples.cql.accounts.ReadWriteAccountSimulation`
 
 #create an executable and run simulations
 `./create_sim_exec.sh`    Creates an executable for the jar in build/libs
@@ -40,3 +40,19 @@ use the executable to list and run simulations
 ## Configuration
 Project configs can be found in the `src/main/resources` the `application.conf` is the file to set the Simulation and Cassandra settings.
 
+#Overriding configuration during runtime
+#Overriding the whole application.conf that's in the jar with a conf file, located anywhere in the file system.
+`Java -Dconfig.file=/"path of new config file/config_filename.conf  -jar   cam_datastax_gatling-all.jar run "simulation class name with package prefix"`
+example: `Java -Dconfig.file=~/config/newconfig.conf  -jar   cam_datastax_gatling-all.jar run sims.examples.cql.accounts.ReadWriteAccountSimulation`
+
+#override UserCount and usersRampTime
+`Java -Dsimulations.cam.writeAccount.usersConstantCnt=23  -Dsimulations.cam.defaults.usersRampTime=40s  -jar   cam_datastax_gatling-all.jar run sims.examples.cql.accounts.ReadWriteAccountSimulation`
+
+#override cassandra host(also dc) and simulation properties
+#override just the cassandra host, but use default simulation settings configured for the app
+`Java -Ddatastax-java-driver.basic.contact-points.0="127.0.0.1:9042"  -Ddatastax-java-driver.basic.load-balancing-policy.local-datacenter=Cassandra  -jar   cam_datastax_gatling-all.jar run sims.examples.cql.accounts.ReadWriteAccountSimulation`
+
+
+#override contact-point(host), setting datacenter is required when setting contact-point, 
+#and  override default simulation setting for UserCount and usersRampTime
+`Java -Ddatastax-java-driver.basic.contact-points.0="127.0.0.1:9042"  -Ddatastax-java-driver.basic.load-balancing-policy.local-datacenter=Cassandra -Dsimulations.cam.writeAccount.usersConstantCnt=23  -Dsimulations.cam.defaults.usersRampTime=20s   -jar   cam_datastax_gatling-all.jar run sims.examples.cql.accounts.ReadWriteAccountSimulation`  
