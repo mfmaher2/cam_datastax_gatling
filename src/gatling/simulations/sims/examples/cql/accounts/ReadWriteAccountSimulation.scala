@@ -39,7 +39,6 @@ class ReadWriteAccountSimulation  extends BaseSimulation {
   //gather values from simulation config file
   val userCnt = simConf.getSimulationConfInt("usersConstantCnt")
   println("userCount:"+ userCnt)
-  println("cassandra hosts:" + simConf.getCassandraConfList("hosts"))
    val rampTime = Duration(simConf.getSimulationConfStr("usersRampTime")).asInstanceOf[FiniteDuration]
   val constantTime =  Duration(simConf.getSimulationConfStr("usersConstantTime")).asInstanceOf[FiniteDuration]
 
