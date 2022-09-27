@@ -38,7 +38,8 @@ class ReadWriteAccountSimulation  extends BaseSimulation {
 
   //gather values from simulation config file
   val userCnt = simConf.getSimulationConfInt("usersConstantCnt")
-  val rampTime = Duration(simConf.getSimulationConfStr("usersRampTime")).asInstanceOf[FiniteDuration]
+  println("userCount:"+ userCnt)
+   val rampTime = Duration(simConf.getSimulationConfStr("usersRampTime")).asInstanceOf[FiniteDuration]
   val constantTime =  Duration(simConf.getSimulationConfStr("usersConstantTime")).asInstanceOf[FiniteDuration]
 
   setUp(
