@@ -1,0 +1,1 @@
+08:21:12.396 [DEBUG] c.d.g.s.c.LoadGenerator$ - Building rampUpToConstant load for scenario: CAMSearch. Ramp time: 14 seconds, Constant Time: 20 seconds, Users: 25
