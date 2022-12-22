@@ -16,14 +16,12 @@ class CAMSearchActions (cassandra: Cassandra, simConf: SimConfig) extends BaseAc
 
   def ReadSearch = {
     group(Groups.SELECT) {
-      exec(cql("Account")
+      exec(cql("CAMSearch")
         .executeStatement(preparedReadSearchStatement)
         .withParams(
           "${solr_query}"
         )
-//        .check(resultSet.transform(_.hasMorePages) is false)
-//        .check(resultSet.transform(_.remaining) is 1)
-//        .check(resultSet.transform(rs => generator.getCustomerAccountEntity(rs.one()) != null) is true)
+        .check(resultSet.transform(_.remaining) greaterThanOrEqual  1)
       )
     }
   }
