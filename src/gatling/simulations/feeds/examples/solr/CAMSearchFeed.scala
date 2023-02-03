@@ -6,16 +6,16 @@ import com.typesafe.scalalogging.LazyLogging
 import java.util.Random
 
 
-class CAMSearchFeed extends BaseFeed with LazyLogging {
+class CAMSearchFeed(val maxID:Int) extends BaseFeed with LazyLogging {
 
+  val idLimit = maxID
   val random = new Random()
 
     def readSearch = Iterator.continually(getSearchData)
 
     private def getSearchData = {
       val queryType = random.nextInt(12)
-//      val queryType = 6
-      val id = (random.nextInt(100000) + 1)
+      val id = (random.nextInt(idLimit) + 1)
 
       val searchString = queryType match {
         case 1 => generateSearchStringType1(id)

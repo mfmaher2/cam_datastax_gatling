@@ -15,7 +15,7 @@ class CAMSearchSimulation extends BaseSimulation {
   val maxIDNum = simConf.getSimulationConfInt("maxID")
 
   val searchActions = new CAMSearchActions(cass, simConf)
-  val searchFeed = new CAMSearchFeed().readSearch
+  val searchFeed = new CAMSearchFeed(maxIDNum).readSearch
 
   val searchScenario = scenario("CAMSearch")
     .feed(searchFeed)
