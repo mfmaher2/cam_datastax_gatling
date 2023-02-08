@@ -27,6 +27,7 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 public class DataGenerator {
 
 	private static Logger LOG = LoggerFactory.getLogger(DataGenerator.class);
+	private GroupInfoDao groupInfoDao;
 //	private CustomerContactDao customerContactDao;
 	private CustomerAccountDao customerAccountDao;
 //	private CustomerAssocAccountDao customerAssocAccountDao;
@@ -58,11 +59,32 @@ public class DataGenerator {
 		CustomerMapper customerMapper = new CustomerMapperBuilder(cqlSession).build();
 		
 //		this.customerContactDao = customerMapper.customerContactDao(Keyspaces.ACCOUNT_CONTACT_KS.keyspaceName(datastax_app_level, datastax_app_name));
-		this.customerAccountDao = customerMapper.customerAccountDao(keyspace);
+		this.groupInfoDao = customerMapper.groupInfoDao(keyspace);
+//		this.customerAccountDao = customerMapper.customerAccountDao(keyspace);
 //		this.customerApplyDiscountDao = customerApplyDiscountDao;
 //		this.customerCommentDao = customerMapper.customerCommentDao(Keyspaces.COMMENT_KS.keyspaceName(datastax_app_level, datastax_app_name));
 	}
 
+
+//	public GeneratedDataExchange<CustomerAccount> getGeneratedGrpInfoAccount(String accountNum, String opco) throws Exception {
+//		CustomerAccount custAccount = generateAccountData(accountNum, opco);
+//		BoundStatement saveStmt = customerAccountDao.batchSave(custAccount);
+//		GeneratedDataExchange<CustomerAccount> exchange = new GeneratedDataExchange<CustomerAccount>(custAccount, saveStmt);
+//
+//		return exchange;
+//	}
+
+	public GeneratedDataExchange<GroupInfo> getGeneratedGrpInfoAccount(String accountNum, String opco) throws Exception {
+		GroupInfo groupInfo = generateGroupInfoData(accountNum, opco);
+		BoundStatement saveStmt = groupInfoDao.batchSave(groupInfo);
+		GeneratedDataExchange<GroupInfo> exchange = new GeneratedDataExchange<GroupInfo>(groupInfo, saveStmt);
+
+		return exchange;
+	}
+
+	public GroupInfo getGroupInfoAccountEntity(Row acctRow){
+		return groupInfoDao.asCustomerAccount(acctRow);
+	}
 
 	public GeneratedDataExchange<CustomerAccount> getGeneratedAccount(String accountNum, String opco) throws Exception {
 		CustomerAccount custAccount = generateAccountData(accountNum, opco);
@@ -224,6 +246,20 @@ public class DataGenerator {
 	// =================================================================
 	// HELPER FUNCTION TO GENERATE DUMMY ACCOUNT DATA FOR TESTING
 	// =================================================================
+
+	public GroupInfo generateGroupInfoData(String account, String opco) throws Exception {
+
+//		String[] accounts = IOUtils.toString(getClass().getResourceAsStream("/cql/accountList.txt")).split("\n");
+
+		int accountCounter = 0;
+
+//		for (String account : accounts) {
+
+		GroupInfo accountFX = podamFactory.manufacturePojo(GroupInfo.class);
+		accountFX.setAccountNumber(account);
+		return accountFX;
+	}
+
 
 	public CustomerAccount generateAccountData(String account, String opco) throws Exception {
 

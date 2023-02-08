@@ -16,7 +16,8 @@ public enum Keyspaces {
     DYNAMIC_PROFILE_KS("dynamic_profile"),
     SEARCH_KS("search"),
     ARCHIVE_KS("archive"),
-	SEQUENCE_KS("sequence");
+	SEQUENCE_KS("sequence"),
+    CAM_GROUP_L1_KS("cam_group_l1_ks");
 
     private String keyspaceName;
     Keyspaces(String ksName) { this.keyspaceName = ksName;}
