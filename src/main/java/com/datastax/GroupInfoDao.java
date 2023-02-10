@@ -65,8 +65,8 @@ public interface GroupInfoDao {
 //    //TODO use common table ID instead of hard coded value
 //    void upsertDutyTaxInfoMapEntries(String acctNum, String opco, Map<String, String> mapEnt);
     
-    @Query("UPDATE ${keyspaceId}.group_info_v1 SET group_id__type = :group_id__type WHERE account_number = :acctNum AND opco = :opco") //TODO use common table ID instead of hard coded value
-    void updateCustomerType(String acctNum, String opco, String custType);
+//    @Query("UPDATE ${keyspaceId}.group_info_v1 SET group_id__type = :group_id__type WHERE account_number = :acctNum AND opco = :opco") //TODO use common table ID instead of hard coded value
+//    void updateCustomerType(String acctNum, String opco, String custType);
 
     @Query("DELETE FROM ${keyspaceId}.group_info_v1 WHERE account_number = :accountNum")
     void deleteAllByAccountNumber(String accountNum);

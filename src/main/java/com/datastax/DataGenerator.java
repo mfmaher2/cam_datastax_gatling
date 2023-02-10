@@ -74,16 +74,12 @@ public class DataGenerator {
 //		return exchange;
 //	}
 
-	public GeneratedDataExchange<GroupInfo> getGeneratedGrpInfoAccount(String accountNum, String opco) throws Exception {
+	public GeneratedDataExchange<GroupInfo> getGeneratedGrpInfo(String accountNum, String opco) throws Exception {
 		GroupInfo groupInfo = generateGroupInfoData(accountNum, opco);
 		BoundStatement saveStmt = groupInfoDao.batchSave(groupInfo);
 		GeneratedDataExchange<GroupInfo> exchange = new GeneratedDataExchange<GroupInfo>(groupInfo, saveStmt);
 
 		return exchange;
-	}
-
-	public GroupInfo getGroupInfoAccountEntity(Row acctRow){
-		return groupInfoDao.asCustomerAccount(acctRow);
 	}
 
 	public GeneratedDataExchange<CustomerAccount> getGeneratedAccount(String accountNum, String opco) throws Exception {
@@ -92,6 +88,10 @@ public class DataGenerator {
 		GeneratedDataExchange<CustomerAccount> exchange = new GeneratedDataExchange<CustomerAccount>(custAccount, saveStmt);
 
 		return exchange;
+	}
+
+	public GroupInfo getGroupInfoEntity(Row acctRow){
+		return groupInfoDao.asCustomerAccount(acctRow);
 	}
 
 	public CustomerAccount getCustomerAccountEntity(Row acctRow){

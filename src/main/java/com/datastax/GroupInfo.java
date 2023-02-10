@@ -25,11 +25,11 @@ public class GroupInfo {
     @CqlName("group_id__code") private String groupCode;
     @CqlName("group_id__number")  private String groupNumber;
     @CqlName("group_id__type") private String groupType;
-    @CqlName("effective_date_time") private LocalDate effectiveDate;
-    @CqlName("expiration_date_time") private String expirationDate;
+    @CqlName("effective_date_time") private Instant effectiveDate;
+    @CqlName("expiration_date_time") private Instant expirationDate;
     @CqlName("group_id_detail__master_account") private String detailMasterAccount;
     @CqlName("group_id_detail__name")  private String detailName;
     @CqlName("group_id_detail__requester") private String detailRequester;
-    @CqlName("last_update_tmstp") private LocalDate lastUpdate;
+    @CqlName("last_update_tmstp") private Instant lastUpdate;
 
 }

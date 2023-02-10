@@ -1,14 +1,14 @@
 package feeds.examples.cql
 
 import com.datastax.gatling.stress.core.BaseFeed
-import com.datastax.{CustomerAccount, DataGenerator}
+import com.datastax.{DataGenerator, GroupInfo}
 import com.typesafe.scalalogging.LazyLogging
 import common.RingBuffer
 import io.gatling.core.Predef.{configuration, csv}
 
 class GroupInfoFeed(dataGen: DataGenerator) extends BaseFeed with LazyLogging{
   private val generator = dataGen
-  private var generatedAccounts = RingBuffer[CustomerAccount](1000)
+  private var generatedAccounts = RingBuffer[GroupInfo](1000)
   private var writtenAccountNumbers = RingBuffer[String](10000)
 
   private val dataFilePath = "src/main/resources/feeddata/accoutData.csv"  //todo, pull from configuration
@@ -38,7 +38,7 @@ class GroupInfoFeed(dataGen: DataGenerator) extends BaseFeed with LazyLogging{
 
   def getAccountStatementData = {
     val accountNumber = faker.numerify("#########")
-    val acctExchange =  generator.getGeneratedAccount(accountNumber, "FX")
+    val acctExchange =  generator.getGeneratedGrpInfo(accountNumber, "FX")
     val custAcct = acctExchange.getDataObject
     val bountStmt =acctExchange.getBoundStatement
 

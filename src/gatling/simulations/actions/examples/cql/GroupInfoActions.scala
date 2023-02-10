@@ -23,7 +23,7 @@ class GroupInfoActions(dataGen: DataGenerator, cassandra: Cassandra, simConf: Si
     group(Groups.INSERT) {
       exec(session => {
         val acctNum = session.get("account_number").as[String]
-        session.set("acctStmt", generator.getGeneratedAccount(acctNum, opco).getBoundStatement)
+        session.set("acctStmt", generator.getGeneratedGrpInfo(acctNum, opco).getBoundStatement)
       })
       .exec(cql("Account")
         .executeBoundStatementParam("acctStmt")
@@ -35,7 +35,7 @@ class GroupInfoActions(dataGen: DataGenerator, cassandra: Cassandra, simConf: Si
     group(Groups.INSERT) {
       exec(session => {
         val acctNum = session.get("account_number").as[String]
-        session.set("acctStmtBatchabe", Seq(generator.getGeneratedAccount(acctNum, opco).getBoundStatement))
+        session.set("acctStmtBatchabe", Seq(generator.getGeneratedGrpInfo(acctNum, opco).getBoundStatement))
       })
         .exec(cql("Account")
           .executeBatchableStatementParam("acctStmtBatchabe", BatchType.LOGGED)
@@ -48,7 +48,7 @@ class GroupInfoActions(dataGen: DataGenerator, cassandra: Cassandra, simConf: Si
       exec(session => {
         val acctNum = session.get("account_number").as[String]
         session.set("acctStmt",
-                    generator.getGeneratedAccount(acctNum, opco)
+                    generator.getGeneratedGrpInfo(acctNum, opco)
                       .getBoundStatement
                       .setConsistencyLevel(customCL))
       })
@@ -76,7 +76,7 @@ class GroupInfoActions(dataGen: DataGenerator, cassandra: Cassandra, simConf: Si
         )
         .check(resultSet.transform(_.hasMorePages) is false)
         .check(resultSet.transform(_.remaining) is 1)
-        .check(resultSet.transform(rs => generator.getCustomerAccountEntity(rs.one()) != null) is true)
+        .check(resultSet.transform(rs => generator.getGroupInfoEntity(rs.one()) != null) is true)
       )
     }
   }
@@ -104,7 +104,7 @@ class GroupInfoActions(dataGen: DataGenerator, cassandra: Cassandra, simConf: Si
           )
         .check(resultSet.transform(_.hasMorePages) is false)
         .check(resultSet.transform(_.remaining) is 1)
-        .check(resultSet.transform(rs => generator.getCustomerAccountEntity(rs.one()) != null) is true)
+        .check(resultSet.transform(rs => generator.getGroupInfoEntity(rs.one()) != null) is true)
       )
     }
   }
