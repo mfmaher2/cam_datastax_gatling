@@ -20,6 +20,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import scala.Int;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
@@ -34,7 +35,7 @@ public class DataGenerator {
 //	private CustomerApplyDiscountDao customerApplyDiscountDao;
 //	private CustomerCommentDao customerCommentDao;
 	private PodamFactory podamFactory = new PodamFactoryImpl();
-
+int mastercounter;
 	/*
 	public DataGenerator(CustomerAccountDao customerAccountDao, CustomerCommentDao customerCommentDao) {
 		this.customerCommentDao = customerCommentDao;
@@ -75,7 +76,8 @@ public class DataGenerator {
 //	}
 
 	public GeneratedDataExchange<GroupInfo> getGeneratedGrpInfo(String accountNum, String opco) throws Exception {
-		GroupInfo groupInfo = generateGroupInfoData(accountNum, opco);
+		int counter = mastercounter;
+		GroupInfo groupInfo = generateGroupInfoData(accountNum, opco, counter);
 		BoundStatement saveStmt = groupInfoDao.batchSave(groupInfo);
 		GeneratedDataExchange<GroupInfo> exchange = new GeneratedDataExchange<GroupInfo>(groupInfo, saveStmt);
 
@@ -247,19 +249,68 @@ public class DataGenerator {
 	// HELPER FUNCTION TO GENERATE DUMMY ACCOUNT DATA FOR TESTING
 	// =================================================================
 
-	public GroupInfo generateGroupInfoData(String account, String opco) throws Exception {
+	public GroupInfo generateGroupInfoData(String account, String opco, int cnt) throws Exception {
 
-//		String[] accounts = IOUtils.toString(getClass().getResourceAsStream("/cql/accountList.txt")).split("\n");
-
-		int accountCounter = 0;
-
-//		for (String account : accounts) {
+		int accountCounter = cnt;
 
 		GroupInfo accountFX = podamFactory.manufacturePojo(GroupInfo.class);
 		accountFX.setAccountNumber(account);
+//		accountFX.setGroupIdNumber("152986");
+//		accountFX.setGroupIdType("MEMBERSHIP");
+		accountFX.setGroupIdDetailName("CS-accessible");
+//		accountFX.setOpco(opco);
+		accountFX.setGroupIdCode("BILLTOPPD");
+		accountFX.setGroupIdDetailMasterAccount("456456456");
+		accountFX.setGroupIdDetailRequester("Abdul");
+//		accountFX.setEffectiveateTime("");
+
+//		if (opco.equals("ENT")) {
+//
+//			if ((accountCounter % 2) == 0) {
+//
+//				accountFX.setOpco(opco);
+//				accountFX.setGroupIdNumber("1111111");
+//				accountFX.setGroupIdType("DETAIL");
+//
+//			} else {
+//				accountFX.setAccountNumber("1111111");
+//				accountFX.setOpco(opco);
+//				accountFX.setGroupIdNumber("22222");
+//				accountFX.setGroupIdType("MEMBERSHIP");
+//
+//			}
+//
+//		} else {
+
+			// CREDIT DETAIL ENUMERATIONS
+
+
+//			if (opco.equals("FX")) {
+//				// INVOICE PREFERENCE ENUMERATIONS
+//				accountFX.setGroupIdNumber("333333");
+//				accountFX.setGroupIdType("DETAIL");
+//
+//			}
+
+			if ((accountCounter % 10) == 0) {
+
+				accountFX.setOpco(opco);
+				accountFX.setGroupIdNumber("4444444");
+				accountFX.setGroupIdType("DETAIL");
+				// Set ExpirationDate to null
+				Instant inst = null;
+				accountFX.setExpirationDateTime(inst);
+			} else {
+
+				accountFX.setOpco(opco);
+				accountFX.setGroupIdNumber("555555");
+				accountFX.setGroupIdType("MEMBERSHIP");
+			}
+
+//		}
+		mastercounter++;
 		return accountFX;
 	}
-
 
 	public CustomerAccount generateAccountData(String account, String opco) throws Exception {
 
