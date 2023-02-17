@@ -1,12 +1,11 @@
 package com.datastax;
 
 import java.time.Instant;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
+import lombok.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,13 +15,11 @@ import com.datastax.oss.driver.api.core.CqlSession;
 import com.datastax.oss.driver.api.core.cql.BoundStatement;
 import com.datastax.oss.driver.api.core.cql.Row;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 import scala.Int;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
+
+import com.github.javafaker.Faker;
 
 @Getter @Setter @NoArgsConstructor @ToString(includeFieldNames=true)
 public class DataGenerator {
@@ -35,7 +32,8 @@ public class DataGenerator {
 //	private CustomerApplyDiscountDao customerApplyDiscountDao;
 //	private CustomerCommentDao customerCommentDao;
 	private PodamFactory podamFactory = new PodamFactoryImpl();
-int mastercounter;
+	int mastercounter = 0;
+//	 List<String> groupIdnumbers = Arrays.asList("501781", "501782", "501783", "501784", "501785", "501786", "501787", "501788");
 	/*
 	public DataGenerator(CustomerAccountDao customerAccountDao, CustomerCommentDao customerCommentDao) {
 		this.customerCommentDao = customerCommentDao;
@@ -252,16 +250,21 @@ int mastercounter;
 	public GroupInfo generateGroupInfoData(String account, String opco, int cnt) throws Exception {
 
 		int accountCounter = cnt;
+		Faker faker = new Faker();
+
+		List<String> groupIdnumbers = Arrays.asList("501781", "501782", "501783", "501784", "501785", "501786", "501787", "501788", "501789");
+		int i = account.indexOf("1");
+		String groupIdNumber = (i != 0) ? groupIdnumbers.get(i) : faker.numerify("#######");
+//		for (int i = 0; i < groupIdnumbers.size(); i++) {
+//			if ((accountCounter % 2) == 0) {
+//				groupIdNumber = groupIdnumbers.get(i);
+//				i = 0;
+//			}
+//		}
 
 		GroupInfo accountFX = podamFactory.manufacturePojo(GroupInfo.class);
 		accountFX.setAccountNumber(account);
-//		accountFX.setGroupIdNumber("152986");
-//		accountFX.setGroupIdType("MEMBERSHIP");
-		accountFX.setGroupIdDetailName("CS-accessible");
-//		accountFX.setOpco(opco);
 		accountFX.setGroupIdCode("BILLTOPPD");
-		accountFX.setGroupIdDetailMasterAccount("456456456");
-		accountFX.setGroupIdDetailRequester("Abdul");
 //		accountFX.setEffectiveateTime("");
 
 //		if (opco.equals("ENT")) {
@@ -292,19 +295,30 @@ int mastercounter;
 //
 //			}
 
-			if ((accountCounter % 10) == 0) {
+			if ((accountCounter % 100) == 0) {
 
+				accountFX.setAccountNumber(groupIdNumber);
 				accountFX.setOpco(opco);
-				accountFX.setGroupIdNumber("4444444");
+				accountFX.setGroupIdNumber(groupIdNumber);
 				accountFX.setGroupIdType("DETAIL");
+				accountFX.setGroupIdDetailMasterAccount("456456456");
+				accountFX.setGroupIdDetailName("CS-accessible");
+				accountFX.setGroupIdDetailRequester("Abdul");
 				// Set ExpirationDate to null
 				Instant inst = null;
 				accountFX.setExpirationDateTime(inst);
+//				if(groupIdnumbers.contains(groupIdNumber)){
+//					groupIdnumbers.remove(i);
+//				}
 			} else {
 
 				accountFX.setOpco(opco);
-				accountFX.setGroupIdNumber("555555");
+				accountFX.setGroupIdNumber(groupIdNumber);
 				accountFX.setGroupIdType("MEMBERSHIP");
+				accountFX.setGroupIdDetailMasterAccount("");
+				accountFX.setGroupIdDetailName("");
+				accountFX.setGroupIdDetailRequester("");
+
 			}
 
 //		}

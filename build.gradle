@@ -49,6 +49,7 @@ dependencies {
     implementation 'org.projectlombok:lombok:1.18.16'
     implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
     implementation 'uk.co.jemos.podam:podam:7.2.7.RELEASE'
+    implementation 'com.github.javafaker:javafaker:1.0.2'
 
     gatling 'com.datastax.oss:java-driver-core:4.13.0'
     gatling 'com.datastax.oss:java-driver-mapper-processor:4.13.0'
